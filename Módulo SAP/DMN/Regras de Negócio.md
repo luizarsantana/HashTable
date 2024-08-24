@@ -12,4 +12,4 @@
 
 <img src="DMN.png">
 
-Arquivo `Ponderada.dmn` referente à [imagem acima](https://github.com/luizarsantana/Ponderadas/blob/c4903b863e35eeb5d9a42036c0a31e7f4ec5fee7/M%C3%B3dulo%20SAP/DMN/Ponderada-DMN.dmn) para vizualização das tabelas de decisão, inputs e outputs.
+Arquivo `Ponderada-DMN.dmn` referente à [imagem acima](https://github.com/luizarsantana/Ponderadas/blob/c4903b863e35eeb5d9a42036c0a31e7f4ec5fee7/M%C3%B3dulo%20SAP/DMN/Ponderada-DMN.dmn) para vizualização das tabelas de decisão, inputs e outputs.

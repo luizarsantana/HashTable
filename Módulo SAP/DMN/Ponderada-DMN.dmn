@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_0pszt7o" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.26.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.5.0">
+  <decision id="Decision_1gh7esz" name="Aprovação de Compra">
+    <informationRequirement id="InformationRequirement_0oex3ik">
+      <requiredInput href="#InputData_0ds5qdb" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1lewcrz">
+      <requiredInput href="#InputData_0io7co8" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_04m19fb">
+      <input id="Input_1" label="Valor da Compra">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0hj4498">
+          <text>"≤ Orçamento","&gt; Orçamento"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1cbuuda" label="Orçamento do Setor de Compras">
+        <inputExpression id="LiteralExpression_1gljcic" typeRef="string">
+          <text></text>
+        </inputExpression>
+        <inputValues id="UnaryTests_04b8cy0">
+          <text>"Igual ou Maior","Menor"</text>
+        </inputValues>
+      </input>
+      <output id="OutputClause_06tpymk" label="Aprovado para Compras" typeRef="string" />
+      <rule id="DecisionRule_076z5cm">
+        <description></description>
+        <inputEntry id="UnaryTests_0p9f0zh">
+          <text>≤ Orçamento</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02plpta">
+          <text>"Igual ou Maior"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yu5lex">
+          <text>"Sim, pode prosseguir"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1b6c8n4">
+        <description>Deve ser encaminhado para o Setor Financeiro</description>
+        <inputEntry id="UnaryTests_0lbhowx">
+          <text>&gt; Orçamento</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t9b7a0">
+          <text>"Menor"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gvzz1t">
+          <text>"Não, excedeu o orçamento"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0ds5qdb" name="Valor da Compra" />
+  <inputData id="InputData_0io7co8" name="Orçamento do Setor de Compras" />
+  <inputData id="InputData_14tggij" name="Disponibilidade no Estoque" />
+  <inputData id="InputData_0dysch6" name="Pedido de Compra por Vendas" />
+  <decision id="Decision_1dp8ckx" name="Aprovação pelo Estoque">
+    <informationRequirement id="InformationRequirement_0dtl33j">
+      <requiredInput href="#InputData_14tggij" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1860eiv">
+      <requiredInput href="#InputData_0dysch6" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1x42xq8">
+      <input id="InputClause_1a0o7o5" label="Pedido de Compra por Vendas">
+        <inputExpression id="LiteralExpression_0xmyxt5" typeRef="boolean" />
+      </input>
+      <input id="InputClause_0ghgye4" label="Disponibilidade no Estoque" biodi:width="192">
+        <inputExpression id="LiteralExpression_13b9gba" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0ftsqdd" label="Aprovado pelo Estoque" typeRef="string" />
+      <rule id="DecisionRule_162xzr3">
+        <inputEntry id="UnaryTests_12m1yig">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_167oee6">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18niuqa">
+          <text>"Não"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yaz1j6">
+        <description></description>
+        <inputEntry id="UnaryTests_1bs2va9">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_197c7pv">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1n15l8q">
+          <text>"Se o pedido não foi feito por vendas, o procedimento é diferente"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1snibyr">
+        <inputEntry id="UnaryTests_0yp8923">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0abdtd8">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lnb3s2">
+          <text>"Sim, pode prosseguir para as próximas etapas"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_09c3lzh" name="Aprovação Financeira" />
+  <decision id="Decision_0xivkp7" name="Compra Efetivada">
+    <informationRequirement id="InformationRequirement_0fa5pi3">
+      <requiredDecision href="#Decision_1gh7esz" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1kkmdkv">
+      <requiredInput href="#InputData_09c3lzh" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1xlim18">
+      <input id="InputClause_1pymfol" label="Aprovação de Compra">
+        <inputExpression id="LiteralExpression_0an607f" typeRef="string" />
+      </input>
+      <input id="InputClause_0psjt30" label="Aprovação Financeira" biodi:width="192">
+        <inputExpression id="LiteralExpression_1pdxvgg" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0dttk33" label="Compra Efetivada" typeRef="string" />
+      <rule id="DecisionRule_1656hd2">
+        <inputEntry id="UnaryTests_091x5i6">
+          <text>"Sim, pode prosseguir"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y1m4v7">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fhwudy">
+          <text>"Compra é efetivada"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1unlw5o">
+        <inputEntry id="UnaryTests_0h9byxa">
+          <text>"Não, excedeu o orçamento"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08ddftn">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ap66n2">
+          <text>"Compra é efetivada"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qt1adl">
+        <description>O setor de compras deverá analisar a cotação préviamente feita e repetir o processo.</description>
+        <inputEntry id="UnaryTests_0namvdk">
+          <text>"Não, excedeu o orçamento"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1smv1pw">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yomjcp">
+          <text>"Compra não é efetivada"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <textAnnotation id="TextAnnotation_07asys6">
+    <text>A disponibilidade no estoque refere-se à presença "em estoque" do material solicitado</text>
+  </textAnnotation>
+  <association id="Association_10440g8">
+    <sourceRef href="#TextAnnotation_07asys6" />
+    <targetRef href="#InputData_14tggij" />
+  </association>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_1gh7esz">
+        <dc:Bounds height="80" width="180" x="640" y="210" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0q1qjpl" dmnElementRef="InputData_0ds5qdb">
+        <dc:Bounds height="45" width="125" x="667" y="377" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1tnm1b7" dmnElementRef="InformationRequirement_0oex3ik">
+        <di:waypoint x="730" y="377" />
+        <di:waypoint x="730" y="310" />
+        <di:waypoint x="730" y="290" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ehofap" dmnElementRef="InputData_0io7co8">
+        <dc:Bounds height="45" width="125" x="667" y="77" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0v0uo93" dmnElementRef="InformationRequirement_1lewcrz">
+        <di:waypoint x="730" y="122" />
+        <di:waypoint x="730" y="190" />
+        <di:waypoint x="730" y="210" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1isv7mx" dmnElementRef="InputData_14tggij">
+        <dc:Bounds height="45" width="125" x="397" y="377" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0qdwsrw" dmnElementRef="InformationRequirement_0dtl33j">
+        <di:waypoint x="460" y="377" />
+        <di:waypoint x="460" y="310" />
+        <di:waypoint x="460" y="290" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0gpcocw" dmnElementRef="InputData_0dysch6">
+        <dc:Bounds height="45" width="125" x="397" y="77" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1h8bdgv" dmnElementRef="InformationRequirement_1860eiv">
+        <di:waypoint x="460" y="122" />
+        <di:waypoint x="460" y="190" />
+        <di:waypoint x="460" y="210" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1xvzhtv" dmnElementRef="Decision_1dp8ckx">
+        <dc:Bounds height="80" width="180" x="370" y="210" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_199yngv" dmnElementRef="InputData_09c3lzh">
+        <dc:Bounds height="45" width="125" x="957" y="377" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_18trld4" dmnElementRef="InformationRequirement_1kkmdkv">
+        <di:waypoint x="1020" y="377" />
+        <di:waypoint x="1020" y="310" />
+        <di:waypoint x="1020" y="290" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_17kugk2" dmnElementRef="TextAnnotation_07asys6">
+        <dc:Bounds height="70" width="160" x="160" y="365" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0j7hn1g" dmnElementRef="Association_10440g8">
+        <di:waypoint x="320" y="403" />
+        <di:waypoint x="397" y="402" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0hpb5yv" dmnElementRef="InformationRequirement_0fa5pi3">
+        <di:waypoint x="820" y="250" />
+        <di:waypoint x="910" y="250" />
+        <di:waypoint x="930" y="250" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_12qbn2q" dmnElementRef="Decision_0xivkp7">
+        <dc:Bounds height="80" width="180" x="930" y="210" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

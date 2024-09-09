@@ -2,6 +2,8 @@
 
 O plano de cutover selecionado para esta atividade foi o [Cutover Plan: The	Missing	Link to a Successful Go-Live](https://www.impact-advisors.com/wp-content/uploads/2022/09/IA-Cutover-Plan-White-Paper-2016-05-FINAL.pdf), desenvolvido pela Impact Advisors, nesse caso voltado para o cenário da saúde. O documento não é exatamente um cutover desenvolvido a respeito de uma empresa específica, mas sim a estruturação de um cutover para a área (incluso imagens e tabelas de exemplo).
 
+Foi desenvolvido porque muitas organizações de saúde dedicam meses ou anos ao planejamento de projetos de software, mas frequentemente negligenciam a importância de um plano de corte adequado. Sem um cutover bem planejado, o *go-live* não será bem sucedido. A falta de um planejamento claro para as tarefas críticas durante o período de inatividade, assim como a falta de comunicação entre as equipes, pode causar falhas no sistema, prolongando o tempo de inatividade e comprometendo o projeto como um todo.
+
 ## Principais Elementos
 Aqui estão alguns dos principais elementos encontrados no documento de Cutover explorado:
 
